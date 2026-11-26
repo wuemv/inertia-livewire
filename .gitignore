@@ -1,0 +1,9 @@
+/vendor/
+/node_modules/
+/packages/*/node_modules/
+/packages/*/dist/
+/test-results/
+/playwright-report/
+.phpunit.result.cache
+.phpunit.cache/
+composer.lock

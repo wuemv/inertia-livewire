@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "paths": { "@wuemv/inertia-livewire": ["../core/src/index.ts"] }
+  },
+  "include": ["src"]
+}

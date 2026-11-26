@@ -1,0 +1,27 @@
+{
+  "name": "@wuemv/inertia-livewire",
+  "version": "0.1.0",
+  "description": "Mount server-rendered Livewire components inside any front-end framework: the shared core of the Inertia adapters.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": ["dist"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wuemv/inertia-livewire.git",
+    "directory": "packages/core"
+  },
+  "keywords": ["livewire", "inertia", "laravel"],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "typecheck": "tsc -p tsconfig.json"
+  }
+}
