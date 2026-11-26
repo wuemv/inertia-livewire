@@ -22,15 +22,14 @@ jobs:
       fail-fast: false
       matrix:
         php: ['8.2', '8.3', '8.4', '8.5']
-        laravel: ['11', '12', '13']
+        laravel: ['12', '13']
         livewire: ['3', '4']
         inertia: ['3']
         include:
           - { php: '8.3', laravel: '12', livewire: '4', inertia: '2' }
-          - { php: '8.2', laravel: '11', livewire: '3', inertia: '2' }
+          - { php: '8.2', laravel: '12', livewire: '3', inertia: '2' }
         exclude:
           - { php: '8.2', laravel: '13' }
-          - { php: '8.5', laravel: '11' }
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -93,3 +92,6 @@ jobs:
       - run: pnpm build
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm exec playwright test
+      - name: Laravel's log
+        if: failure()
+        run: cat vendor/orchestra/testbench-core/laravel/storage/logs/*.log || true

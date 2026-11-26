@@ -16,7 +16,7 @@ return Inertia::livewire(BillingSettings::class, ['team' => $team->id], ['title'
 
 ## Requirements
 
-- PHP 8.2 or later, Laravel 11 to 13
+- PHP 8.2 or later, Laravel 12.61.1 or 13.12 and later (earlier releases have a signed-URL flaw that lazy components rely on; Laravel 11 no longer gets security fixes)
 - Livewire 3 or 4
 - Inertia 2 or 3 (`inertiajs/inertia-laravel`)
 - Vue 3.3 or later. React: coming next, in `packages/react`.
