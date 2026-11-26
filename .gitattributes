@@ -12,6 +12,7 @@
 /playwright.config.ts export-ignore
 /pnpm-lock.yaml     export-ignore
 /pnpm-workspace.yaml export-ignore
+/pun.toml           export-ignore
 /testbench.yaml     export-ignore
 /tsconfig.base.json export-ignore
 /vitest.config.ts   export-ignore
