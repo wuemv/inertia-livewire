@@ -1,0 +1,18 @@
+# Pun's settings (https://punphp.com/docs/configuration/pun-toml).
+# The target PHP version comes from composer.json's require.php.
+
+[extensions]
+laravel = "on"
+pest = "on"
+
+[files]
+exclude = ["tmp", "temp"]
+
+[format]
+preset = "laravel"
+
+[lint]
+preset = "recommended"
+
+[analyse]
+preset = "recommended"
