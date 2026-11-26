@@ -15,7 +15,7 @@ Please report security problems privately, not in an issue: see [SECURITY.md](SE
 
 ## Setting up
 
-You need PHP 8.3 or later, Composer 2, Node 22 and pnpm (`corepack enable` gives you the version `package.json` names).
+You need PHP 8.3 or later, at the newest security release `composer.json` allows, Composer 2, Node 22 and pnpm (`corepack enable` gives you the version `package.json` names).
 
 ```sh
 git clone https://github.com/wuemv/inertia-livewire.git
