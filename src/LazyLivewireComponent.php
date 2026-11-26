@@ -21,7 +21,7 @@ use JsonSerializable;
  */
 final class LazyLivewireComponent implements Arrayable, JsonSerializable
 {
-    public const ROUTE = 'inertia-livewire.render';
+    public const string ROUTE = 'inertia-livewire.render';
 
     /**
      * @param  array<string, mixed>  $params  passed to the component's mount(); must be JSON-encodable

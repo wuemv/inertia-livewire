@@ -23,7 +23,7 @@ final class InertiaLivewire
      */
     public function render(string|View $component, array $params = []): LivewireComponent
     {
-        return new LivewireComponent(self::name($component), $params);
+        return new LivewireComponent($this->name($component), $params);
     }
 
     /**
@@ -35,7 +35,7 @@ final class InertiaLivewire
     {
         $ttl ??= (int) $this->config->get('inertia-livewire.lazy_ttl', 3600);
 
-        return new LazyLivewireComponent(self::name($component), $params, now()->addSeconds($ttl));
+        return new LazyLivewireComponent($this->name($component), $params, now()->addSeconds($ttl));
     }
 
     /**
@@ -56,7 +56,7 @@ final class InertiaLivewire
         return Inertia::render($page, [...$props, $prop => $this->render($component, $params)]);
     }
 
-    private static function name(string|View $component): string
+    private function name(string|View $component): string
     {
         return $component instanceof View ? $component->name() : $component;
     }

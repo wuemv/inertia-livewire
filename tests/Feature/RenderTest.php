@@ -14,8 +14,8 @@ test('renders the component with its parameters into a key and html', function (
         ->toContain('<span class="count">5</span>')
         // Livewire needs the snapshot to start the component.
         ->toContain('wire:snapshot')
-        ->toContain('wire:click="increment"');
-    expect($prop['key'])->toBe(hash('xxh128', $prop['html']));
+        ->toContain('wire:click="increment"')
+        ->and($prop['key'])->toBe(hash('xxh128', $prop['html']));
 });
 
 test('accepts an alias as well as a class name', function () {
@@ -47,6 +47,6 @@ test('renders only when Inertia resolves the prop', function () {
         'X-Inertia-Partial-Component' => 'Page',
         'X-Inertia-Partial-Data' => 'title',
     ]);
-    expect($partial->json('props.title'))->toBe('Counter');
-    expect($partial->json('props.livewire'))->toBeNull();
+    expect($partial->json('props.title'))->toBe('Counter')
+        ->and($partial->json('props.livewire'))->toBeNull();
 });

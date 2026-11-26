@@ -14,9 +14,8 @@ test('the signed URL renders the component for the user it was made for', functi
 
     $response->assertOk();
     $response->assertHeader('Content-Type', 'text/html; charset=UTF-8');
-    expect((string) $response->headers->get('Cache-Control'))->toContain('no-store');
-    expect($response->getContent())
-        ->toContain('<span class="count">4</span>')
+    expect((string) $response->headers->get('Cache-Control'))->toContain('no-store')
+        ->and($response->getContent())->toContain('<span class="count">4</span>')
         ->toContain('wire:snapshot');
 });
 
@@ -29,11 +28,12 @@ test('the key is stable for the same component and parameters', function () {
 });
 
 test('the URL does not reveal the component or its parameters', function () {
-    $url = InertiaLivewire::lazy(Counter::class, ['start' => 4, 'secret' => 'shh'])->url();
+    // Hyphens never occur in the encrypted payload's base64, so this can't match by chance.
+    $url = InertiaLivewire::lazy(Counter::class, ['start' => 4, 'note' => 'not-for-the-browser'])->url();
 
     expect(urldecode($url))
         ->not->toContain('Counter')
-        ->not->toContain('shh');
+        ->not->toContain('not-for-the-browser');
 });
 
 test('another user or a guest cannot use the URL', function () {
