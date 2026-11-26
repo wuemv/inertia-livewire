@@ -37,7 +37,7 @@ The repository is one Composer package (the root: `src/`, `config/`, `routes/`) 
 | `pnpm build` | Builds the packages into `packages/*/dist` |
 | `pnpm e2e` | The browser tests (Playwright, Chromium) against `workbench/`, after `pnpm build`. Run `pnpm exec playwright install chromium` once first. |
 
-CI runs all of them. The PHP tests run on PHP 8.3 to 8.5 with Laravel 12 and 13, Livewire 3 and 4, and Inertia 2 and 3.
+CI runs all of them. The PHP tests run on PHP 8.3 to 8.5 with Laravel 12 and 13, Livewire 4, and Inertia 2 and 3.
 
 ## Ground rules
 
