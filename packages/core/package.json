@@ -19,8 +19,14 @@
     "url": "git+https://github.com/wuemv/inertia-livewire.git",
     "directory": "packages/core"
   },
+  "homepage": "https://github.com/wuemv/inertia-livewire#readme",
+  "bugs": "https://github.com/wuemv/inertia-livewire/issues",
   "keywords": ["livewire", "inertia", "laravel"],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
+    "prepublishOnly": "pnpm run build",
     "build": "tsup src/index.ts --format esm --dts --clean",
     "typecheck": "tsc -p tsconfig.json"
   }
