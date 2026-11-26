@@ -18,7 +18,7 @@ return Inertia::livewire(BillingSettings::class, ['team' => $team->id], ['title'
 
 - PHP 8.3.37, 8.4.28 or 8.5.13 and later: the newest security release of each PHP version
 - Laravel 12.61.1 or 13.12 and later (earlier releases have a signed-URL flaw that lazy components rely on; Laravel 11 no longer gets security fixes)
-- Livewire 3 or 4
+- Livewire 4.4.8 or later (earlier releases have security advisories)
 - Inertia 2 or 3 (`inertiajs/inertia-laravel`)
 - Vue 3.3 or later. React: coming next, in `packages/react`.
 

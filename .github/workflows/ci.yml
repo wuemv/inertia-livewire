@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   php:
-    name: PHP ${{ matrix.php }}, Laravel ${{ matrix.laravel }}, Livewire ${{ matrix.livewire }}, Inertia ${{ matrix.inertia }}
+    name: PHP ${{ matrix.php }}, Laravel ${{ matrix.laravel }}, Inertia ${{ matrix.inertia }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     strategy:
@@ -23,11 +23,9 @@ jobs:
       matrix:
         php: ['8.3', '8.4', '8.5']
         laravel: ['12', '13']
-        livewire: ['3', '4']
         inertia: ['3']
         include:
-          - { php: '8.3', laravel: '12', livewire: '4', inertia: '2' }
-          - { php: '8.3', laravel: '12', livewire: '3', inertia: '2' }
+          - { php: '8.3', laravel: '12', inertia: '2' }
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
@@ -36,7 +34,7 @@ jobs:
           coverage: none
       - run: >
           composer require --no-update --no-interaction
-          "illuminate/support:^${{ matrix.laravel }}.0" "livewire/livewire:^${{ matrix.livewire }}.0"
+          "illuminate/support:^${{ matrix.laravel }}.0"
           "inertiajs/inertia-laravel:^${{ matrix.inertia }}.0"
       - run: composer update --no-interaction --no-progress --with-all-dependencies
       - run: vendor/bin/pest
