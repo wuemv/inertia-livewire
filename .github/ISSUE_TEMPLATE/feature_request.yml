@@ -1,0 +1,21 @@
+name: Feature request
+description: Suggest a new option, an adapter, or a change to how components mount.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What you're trying to do
+      description: The screen or the case you're building, and where the package gets in the way today.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: What you'd like
+      description: The API or behaviour you have in mind, as code if you can.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What you've tried
+      description: Workarounds or other approaches, and why they fall short.

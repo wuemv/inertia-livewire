@@ -1,0 +1,50 @@
+name: Bug report
+description: Something doesn't work as the README says it should.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting it. Security problems go through a private report instead: see SECURITY.md.
+
+        If a component shows but doesn't react to clicks, first check that the Inertia root template loads `@livewireStyles` and `@livewireScripts` (README, Install).
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: code
+    attributes:
+      label: Code
+      description: The route or controller that calls `Inertia::livewire()` or `InertiaLivewire::render()`/`lazy()`, and the page that mounts `<LivewireMount>`. Trim it to what reproduces the problem.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Browser console and errors
+      description: The browser console, any exception from Laravel's log, and for a lazy component, the status of its request in the network tab.
+      render: text
+  - type: input
+    id: package
+    attributes:
+      label: inertia-livewire versions
+      description: "`wuemv/inertia-livewire` and `@wuemv/inertia-livewire-vue`, from `composer show` and `npm ls`."
+    validations:
+      required: true
+  - type: input
+    id: stack
+    attributes:
+      label: PHP, Laravel, Livewire, Inertia and Vue versions
+      placeholder: PHP 8.4.1, Laravel 13.12.0, Livewire 4.4.0, inertia-laravel 3.8.0, @inertiajs/vue3 3.2.0, Vue 3.5.13
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      placeholder: Chrome 140 on macOS
