@@ -35,13 +35,15 @@ Load Livewire in the Inertia root template, `resources/views/app.blade.php`. Liv
 <head>
     ...
     @livewireStyles
-    @inertiaHead
+    <x-inertia::head>...</x-inertia::head>
 </head>
 <body>
-    @inertia
+    <x-inertia::app />
     @livewireScripts
 </body>
 ```
+
+That is the root template of Inertia 3's starter kits. With the `@inertiaHead` and `@inertia` directives, the places are the same: `@livewireStyles` before `@inertiaHead`, `@livewireScripts` after `@inertia`.
 
 Livewire brings Alpine: don't load another Alpine.
 
@@ -66,18 +68,17 @@ The page receives its props and the component as `livewire` (`{ key, html }`):
 <!-- resources/js/pages/Settings/LivewirePage.vue -->
 <script setup lang="ts">
 import { LivewireMount, type LivewireComponent } from '@wuemv/inertia-livewire-vue';
-import AppLayout from '@/layouts/AppLayout.vue';
 
 defineProps<{ title: string; livewire: LivewireComponent }>();
 </script>
 
 <template>
-    <AppLayout>
-        <h1>{{ title }}</h1>
-        <LivewireMount :component="livewire" class="p-6" />
-    </AppLayout>
+    <h1>{{ title }}</h1>
+    <LivewireMount :component="livewire" class="p-6" />
 </template>
 ```
+
+It gets the app's default layout like any other page (Inertia 3's starter kits set one in `createInertiaApp({ layout })`). Without a default layout, wrap it in yours.
 
 ### A component inside any page
 
@@ -162,6 +163,7 @@ Livewire owns the element's content once it is there: while the key stays the sa
 - Use Inertia's links. `wire:navigate` in an embedded component would fight Inertia's router.
 - With Inertia's SSR, the component's HTML is part of the server render; it starts once the page's JavaScript and Livewire have loaded.
 - Components are separate from the page's Vue state: talk through events, or reload Inertia props.
+- The back button brings a page back from Inertia's history, so its components start again as the server rendered them: what changed in them since (a count, unsaved form input) is gone. A lazy component is fetched again.
 
 ## Configuration
 
