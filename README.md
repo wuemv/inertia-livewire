@@ -181,7 +181,7 @@ php artisan vendor:publish --tag=inertia-livewire-config
 
 ```sh
 composer install && pnpm install
-vendor/bin/phpunit          # PHP: rendering, the page macro, the signed endpoint
+vendor/bin/pest             # PHP: rendering, the page macro, the signed endpoint
 pnpm test                   # JavaScript: the core and the Vue adapter, in jsdom
 pnpm build && pnpm e2e      # Chromium against a real Laravel + Livewire app (workbench/)
 ```

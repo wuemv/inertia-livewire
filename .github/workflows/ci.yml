@@ -41,7 +41,7 @@ jobs:
           "illuminate/support:^${{ matrix.laravel }}.0" "livewire/livewire:^${{ matrix.livewire }}.0"
           "inertiajs/inertia-laravel:^${{ matrix.inertia }}.0"
       - run: composer update --no-interaction --no-progress --with-all-dependencies
-      - run: vendor/bin/phpunit
+      - run: vendor/bin/pest
 
   lint:
     name: Pint

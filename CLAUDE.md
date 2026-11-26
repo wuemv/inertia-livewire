@@ -20,7 +20,8 @@ Mount Livewire components inside Inertia pages. One repository, published as a C
 
 ## Development
 
-- `vendor/bin/phpunit` (Testbench), `vendor/bin/pint --test`; `pnpm test` (Vitest, jsdom; tests import the core from source through an alias), `pnpm typecheck`, `pnpm build` (tsup); `pnpm e2e` after `pnpm build`.
+- `vendor/bin/pest` (Testbench), `vendor/bin/pint --test`; `pnpm test` (Vitest, jsdom; tests import the core from source through an alias), `pnpm typecheck`, `pnpm build` (tsup); `pnpm e2e` after `pnpm build`.
+- The PHP tests are Pest (`tests/Pest.php` extends `TestCase` in `tests/Feature`). `^3.8 || ^4.0 || ^5.0`: Composer picks Pest 3 (PHPUnit 11.5) on PHP 8.2, Pest 4 (PHPUnit 12) on 8.3, Pest 5 (PHPUnit 13) on 8.4+; all three pass. A test that needs different config before the providers boot can't override `defineEnvironment()` in a Pest file: set the config, then `$this->app->register(Provider::class, force: true)`, as `RouteTest` does (Orchestra's Pest plugin would be a new dependency).
 - Where Playwright cannot download its browser, set `CHROMIUM_PATH` (e.g. `/opt/pw-browsers/chromium` in Claude's cloud sandbox). The workbench uses `CACHE_STORE=array`: Livewire 4 reads a rate limit from the cache on every update.
 - Tested locally: Laravel 13 + Livewire 4.4 + Inertia 3.8; Laravel 12 + Livewire 3.8 + Inertia 3.8; Laravel 12 + Livewire 4.4 + Inertia 2.0. CI covers PHP 8.2–8.5 × Laravel 12–13 × Livewire 3–4, plus Inertia 2.
 - No Laravel 11: every 11.x release has unfixed advisories, and Composer 2.9+ refuses to install them (CI uses it). The minimum releases, 12.61.1 and 13.12, carry the fix for temporary signed URL path confusion, which lazy URLs rely on.
