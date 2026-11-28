@@ -1,5 +1,6 @@
 <!doctype html>
-<!-- The README banner and the social preview. Edit, then run `node art/render.mjs`. -->
+<!-- The README banners (the repository's and one per npm package) and the social preview.
+     Edit, then run `node art/render.mjs`. -->
 <html>
 <head>
 <meta charset="utf-8">
@@ -123,18 +124,31 @@
   .callout .a { color: var(--muted); }
   .callout .v { color: var(--pink); }
   .callout .k { display: block; font-size: 10.5px; color: var(--muted); margin-bottom: 4px; letter-spacing: .08em; text-transform: uppercase; }
+
+  /* One banner per package: render.mjs sets data-package ("all" is the repository's). */
+  [data-show] { display: none; }
+  body[data-package="all"] [data-show~="all"],
+  body[data-package="core"] [data-show~="core"],
+  body[data-package="vue"] [data-show~="vue"],
+  body[data-package="react"] [data-show~="react"] { display: revert; }
 </style>
 </head>
-<body class="dark">
+<body class="dark" data-package="all">
   <div class="grid"></div>
   <div class="canvas">
     <div class="copy">
-      <div class="eyebrow">For <b>Laravel</b> apps</div>
+      <div class="eyebrow">For <b>Laravel</b> apps<span data-show="core"> · <b>Core</b></span><span data-show="vue"> · <b>Vue</b> adapter</span><span data-show="react"> · <b>React</b> adapter</span></div>
       <h1><span class="i">inertia</span><span class="dash">-</span><span class="l">livewire</span></h1>
-      <p class="tagline">Livewire components, running inside your Inertia pages.</p>
+      <p class="tagline" data-show="all">Livewire components, running inside your Inertia pages.</p>
+      <p class="tagline" data-show="vue">Livewire components, running inside your Vue + Inertia pages.</p>
+      <p class="tagline" data-show="react">Livewire components, running inside your React + Inertia pages.</p>
+      <p class="tagline" data-show="core">The framework-free core of the Vue and React adapters.</p>
       <div class="meta">
-        <span class="chip">Vue</span><span class="chip">React</span>
-        <span class="install">composer require wuemv/inertia-livewire</span>
+        <span class="chip" data-show="all core vue">Vue</span><span class="chip" data-show="all core react">React</span>
+        <span class="install" data-show="all">composer require wuemv/inertia-livewire</span>
+        <span class="install" data-show="core">npm install @wuemv/inertia-livewire</span>
+        <span class="install" data-show="vue">npm install @wuemv/inertia-livewire-vue</span>
+        <span class="install" data-show="react">npm install @wuemv/inertia-livewire-react</span>
       </div>
     </div>
     <div class="scene">
@@ -150,7 +164,9 @@
             <div class="nav" style="width:52%"></div>
           </div>
           <div class="main">
-            <span class="tag inertia">Inertia page · Vue / React</span>
+            <span class="tag inertia" data-show="all core">Inertia page · Vue / React</span>
+            <span class="tag inertia" data-show="vue">Inertia page · Vue</span>
+            <span class="tag inertia" data-show="react">Inertia page · React</span>
             <div class="crumbs">Settings / Billing</div>
             <div class="h">Billing</div>
             <div class="lw">
@@ -162,7 +178,9 @@
           </div>
         </div>
       </div>
-      <div class="callout"><span class="k">all the page needs</span><span class="a">&lt;</span><span class="t">LivewireMount</span> <span class="a">:component=</span><span class="v">"billing"</span> <span class="a">/&gt;</span></div>
+      <div class="callout" data-show="all vue"><span class="k">all the page needs</span><span class="a">&lt;</span><span class="t">LivewireMount</span> <span class="a">:component=</span><span class="v">"billing"</span> <span class="a">/&gt;</span></div>
+      <div class="callout" data-show="react"><span class="k">all the page needs</span><span class="a">&lt;</span><span class="t">LivewireMount</span> <span class="a">component=</span><span class="v">{billing}</span> <span class="a">/&gt;</span></div>
+      <div class="callout" data-show="core"><span class="k">what the adapters call</span><span class="t">mount</span><span class="a">(el, </span><span class="v">billing.html</span><span class="a">)</span></div>
     </div>
   </div>
 </body>

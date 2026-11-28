@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/wuemv/inertia-livewire/main/art/banner-light.png" width="1280" alt="inertia-livewire: a Livewire component running inside an Inertia page, mounted with &lt;LivewireMount :component=&quot;billing&quot; /&gt;">
+<img src="https://raw.githubusercontent.com/wuemv/inertia-livewire/main/art/banner-vue.png" width="1280" alt="inertia-livewire for Vue: a Livewire component running inside a Vue + Inertia page, mounted with &lt;LivewireMount :component=&quot;billing&quot; /&gt;">
 
 # @wuemv/inertia-livewire-vue
 
