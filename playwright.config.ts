@@ -4,6 +4,8 @@ import { defineConfig } from '@playwright/test';
 // built packages, so run `pnpm build` first.
 export default defineConfig({
     testDir: 'e2e',
+    // Bundles the React page (e2e/pages/react.ts).
+    globalSetup: './e2e/global-setup.ts',
     use: {
         baseURL: 'http://127.0.0.1:8123',
         // A Chromium other than Playwright's own, where browsers cannot be downloaded.

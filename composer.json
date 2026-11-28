@@ -1,6 +1,6 @@
 {
     "name": "wuemv/inertia-livewire",
-    "description": "Mount Livewire components inside Inertia pages: server-rendered by Laravel, started in place by Livewire, with a Vue adapter.",
+    "description": "Mount Livewire components inside Inertia pages: server-rendered by Laravel, started in place by Livewire, with Vue and React adapters.",
     "type": "library",
     "keywords": [
         "laravel",
