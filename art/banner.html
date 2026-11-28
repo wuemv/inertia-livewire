@@ -1,0 +1,169 @@
+<!doctype html>
+<!-- The README banner and the social preview. Edit, then run `node art/render.mjs`. -->
+<html>
+<head>
+<meta charset="utf-8">
+<title>inertia-livewire banner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=block" rel="stylesheet">
+<style>
+  :root {
+    --purple: #9d74ff;
+    --pink: #ff6fae;
+    --bg: #0c0b13;
+    --ink: #f3f2f8;
+    --muted: #a3a1b8;
+    --line: #2a2838;
+    --window: #14131d;
+    --side: #191826;
+    --main: #100f18;
+    --card: #1b1220;
+    --field: #221a2a;
+  }
+  body.light {
+    --purple: #7c4dff;
+    --pink: #e8488f;
+    --bg: #fbfaff;
+    --ink: #17151f;
+    --muted: #5f5c72;
+    --line: #e4e1ef;
+    --window: #ffffff;
+    --side: #f4f2fb;
+    --main: #fdfcff;
+    --card: #fff5fa;
+    --field: #fbe9f2;
+  }
+  * { box-sizing: border-box; margin: 0; font-variant-ligatures: none; }
+  html, body { width: 100vw; height: 100vh; overflow: hidden; }
+  body {
+    background:
+      radial-gradient(600px 380px at 8% 0%, color-mix(in oklab, var(--purple) 22%, transparent), transparent 70%),
+      radial-gradient(520px 360px at 100% 100%, color-mix(in oklab, var(--pink) 18%, transparent), transparent 70%),
+      var(--bg);
+    color: var(--ink);
+    font-family: 'Instrument Sans', system-ui, sans-serif;
+  }
+  .grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(color-mix(in oklab, var(--ink) 5%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in oklab, var(--ink) 5%, transparent) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: radial-gradient(900px 420px at 30% 40%, #000 30%, transparent 75%);
+  }
+  .canvas { position: relative; display: grid; grid-template-columns: 500px 1fr; height: 100%; padding: 0 56px 0 72px; align-items: center; gap: 24px; }
+
+  .eyebrow { font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+  .eyebrow b { font-weight: 500; color: var(--ink); }
+  h1 { font-size: 64px; font-weight: 600; letter-spacing: -.035em; line-height: 1; }
+  h1 .i { color: var(--purple); }
+  h1 .dash { color: var(--muted); padding: 0 .02em; }
+  h1 .l { color: var(--pink); }
+  .tagline { margin-top: 18px; font-size: 25px; line-height: 1.3; color: var(--ink); max-width: 420px; }
+  .tagline em { font-style: normal; color: var(--muted); }
+  .meta { margin-top: 30px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .chip { font-size: 14px; font-weight: 500; padding: 6px 12px; border-radius: 999px; border: 1px solid var(--line); background: color-mix(in oklab, var(--window) 70%, transparent); }
+  .install { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--muted); padding: 6px 0 6px 6px; }
+  .install::before { content: '$ '; color: var(--purple); }
+
+  .scene { position: relative; height: 400px; }
+  .scene .callout { bottom: 22px; }
+  .window {
+    position: absolute; right: 0; top: 30px; width: 620px; height: 318px;
+    border-radius: 14px; background: var(--window); border: 1px solid var(--line);
+    box-shadow: 0 30px 80px -20px rgb(0 0 0 / .55), 0 0 0 1px rgb(255 255 255 / .02) inset;
+    overflow: hidden;
+  }
+  body.light .window { box-shadow: 0 30px 70px -24px rgb(60 40 120 / .28); }
+  .bar { height: 38px; display: flex; align-items: center; gap: 7px; padding: 0 14px; border-bottom: 1px solid var(--line); }
+  .bar i { width: 11px; height: 11px; border-radius: 50%; background: color-mix(in oklab, var(--muted) 35%, transparent); }
+  .url { margin-left: 14px; flex: 1; height: 22px; border-radius: 6px; background: var(--side); font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--muted); display: flex; align-items: center; padding: 0 10px; }
+  .app { display: grid; grid-template-columns: 132px 1fr; height: calc(100% - 38px); }
+  .side { background: var(--side); border-right: 1px solid var(--line); padding: 16px 14px; display: flex; flex-direction: column; gap: 11px; }
+  .side .logo { width: 26px; height: 26px; border-radius: 7px; background: linear-gradient(135deg, var(--purple), color-mix(in oklab, var(--purple) 50%, var(--pink))); margin-bottom: 8px; }
+  .side .nav { height: 8px; border-radius: 4px; background: color-mix(in oklab, var(--muted) 28%, transparent); }
+  .side .nav.on { background: color-mix(in oklab, var(--purple) 70%, transparent); width: 80%; }
+  .main { position: relative; background: var(--main); padding: 22px 26px; }
+  .main::before { /* the Inertia page's outline */
+    content: ''; position: absolute; inset: 8px; border-radius: 10px;
+    border: 1.5px dashed color-mix(in oklab, var(--purple) 60%, transparent);
+  }
+  .tag { position: absolute; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 6px; letter-spacing: .02em; white-space: nowrap; }
+  .tag.inertia { top: 0; right: 22px; transform: translateY(-1px); background: var(--purple); color: #fff; border-radius: 0 0 6px 6px; }
+  .crumbs { font-size: 12px; color: var(--muted); margin: 4px 0 6px; }
+  .h { font-size: 20px; font-weight: 600; letter-spacing: -.01em; margin-bottom: 14px; }
+  .lw {
+    position: relative; border-radius: 12px; padding: 18px 18px 16px;
+    background: var(--card);
+    border: 1.5px solid var(--pink);
+    box-shadow: 0 0 0 5px color-mix(in oklab, var(--pink) 12%, transparent), 0 18px 50px -12px color-mix(in oklab, var(--pink) 40%, transparent);
+  }
+  .tag.livewire { top: -11px; left: 14px; background: var(--pink); color: #fff; }
+  .row { display: flex; justify-content: space-between; align-items: center; font-size: 13.5px; padding: 7px 0; color: var(--ink); }
+  .row + .row { border-top: 1px solid color-mix(in oklab, var(--pink) 18%, transparent); }
+  .seg { display: inline-flex; background: var(--field); border-radius: 7px; padding: 3px; font-size: 12px; }
+  .seg b { font-weight: 500; padding: 3px 10px; border-radius: 5px; color: var(--muted); }
+  .seg b.on { background: var(--pink); color: #fff; }
+  .step { display: inline-flex; align-items: center; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+  .step s { text-decoration: none; width: 22px; height: 22px; border-radius: 6px; background: var(--field); display: grid; place-items: center; color: var(--muted); }
+  .actions { display: flex; justify-content: flex-end; align-items: center; gap: 10px; margin-top: 10px; }
+  .wire { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--pink); opacity: .9; }
+  .save { font: inherit; font-size: 13px; font-weight: 600; border: 0; border-radius: 7px; padding: 7px 16px; background: var(--pink); color: #fff; }
+
+  .callout {
+    position: absolute; left: -6px; bottom: 6px;
+    font-family: 'JetBrains Mono', monospace; font-size: 13px;
+    padding: 10px 14px; border-radius: 10px;
+    background: color-mix(in oklab, var(--window) 92%, transparent); border: 1px solid var(--line);
+    box-shadow: 0 16px 40px -14px rgb(0 0 0 / .5);
+    backdrop-filter: blur(6px);
+  }
+  body.light .callout { box-shadow: 0 16px 36px -16px rgb(60 40 120 / .3); }
+  .callout .t { color: var(--purple); }
+  .callout .a { color: var(--muted); }
+  .callout .v { color: var(--pink); }
+  .callout .k { display: block; font-size: 10.5px; color: var(--muted); margin-bottom: 4px; letter-spacing: .08em; text-transform: uppercase; }
+</style>
+</head>
+<body class="dark">
+  <div class="grid"></div>
+  <div class="canvas">
+    <div class="copy">
+      <div class="eyebrow">For <b>Laravel</b> apps</div>
+      <h1><span class="i">inertia</span><span class="dash">-</span><span class="l">livewire</span></h1>
+      <p class="tagline">Livewire components, running inside your Inertia pages.</p>
+      <div class="meta">
+        <span class="chip">Vue</span><span class="chip">React</span>
+        <span class="install">composer require wuemv/inertia-livewire</span>
+      </div>
+    </div>
+    <div class="scene">
+      <div class="window">
+        <div class="bar"><i></i><i></i><i></i><div class="url">app.test/settings/billing</div></div>
+        <div class="app">
+          <div class="side">
+            <div class="logo"></div>
+            <div class="nav" style="width:70%"></div>
+            <div class="nav on"></div>
+            <div class="nav" style="width:60%"></div>
+            <div class="nav" style="width:76%"></div>
+            <div class="nav" style="width:52%"></div>
+          </div>
+          <div class="main">
+            <span class="tag inertia">Inertia page · Vue / React</span>
+            <div class="crumbs">Settings / Billing</div>
+            <div class="h">Billing</div>
+            <div class="lw">
+              <span class="tag livewire">Livewire component</span>
+              <div class="row"><span>Plan</span><span class="seg"><b>Monthly</b><b class="on">Yearly</b></span></div>
+              <div class="row"><span>Seats</span><span class="step"><s>−</s>12<s>+</s></span></div>
+              <div class="actions"><span class="wire">wire:click="save"</span><button class="save">Save</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="callout"><span class="k">all the page needs</span><span class="a">&lt;</span><span class="t">LivewireMount</span> <span class="a">:component=</span><span class="v">"billing"</span> <span class="a">/&gt;</span></div>
+    </div>
+  </div>
+</body>
+</html>

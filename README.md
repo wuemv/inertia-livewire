@@ -1,3 +1,8 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="art/banner-dark.png">
+  <img src="art/banner-light.png" width="1280" alt="inertia-livewire: a Livewire component running inside an Inertia page, mounted with &lt;LivewireMount :component=&quot;billing&quot; /&gt;">
+</picture>
+
 # inertia-livewire
 
 Mount Livewire components inside the Inertia pages of a Laravel app.
