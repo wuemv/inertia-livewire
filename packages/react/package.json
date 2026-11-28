@@ -1,7 +1,7 @@
 {
   "name": "@wuemv/inertia-livewire-react",
   "version": "0.1.0",
-  "description": "Mount server-rendered Livewire components inside React + Inertia pages.",
+  "description": "Mount Laravel Livewire components inside React + Inertia pages.",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,

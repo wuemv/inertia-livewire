@@ -1,6 +1,6 @@
 # @wuemv/inertia-livewire-react
 
-Mount Livewire components inside React + Inertia pages.
+Mount Livewire components inside the React + Inertia pages of a Laravel app.
 
 ```sh
 composer require wuemv/inertia-livewire

@@ -1,6 +1,6 @@
 # inertia-livewire
 
-Mount Livewire components inside Inertia pages.
+Mount Livewire components inside the Inertia pages of a Laravel app.
 
 Laravel renders the component on the server, the Inertia page receives its HTML as a prop, and a small Vue (or React) component puts it on the page and lets Livewire start it. Inertia keeps the page, the layout and the navigation; Livewire runs the component, with its own requests and its own DOM updates.
 
