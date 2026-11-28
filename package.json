@@ -7,7 +7,8 @@
     "build": "pnpm -r run build",
     "test": "vitest run",
     "typecheck": "pnpm -r run typecheck",
-    "e2e": "playwright test"
+    "e2e": "playwright test",
+    "check:versions": "node scripts/check-versions.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.65.1",

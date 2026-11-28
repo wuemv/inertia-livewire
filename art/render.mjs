@@ -1,5 +1,6 @@
-// Renders art/banner.html into the README banners (dark, light) and GitHub's social
-// preview: `node art/render.mjs`, after `pnpm install`. The fonts come from Google Fonts.
+// Renders art/banner.html into the README banners (dark, light), one light banner per npm
+// package, and GitHub's social preview: `node art/render.mjs`, after `pnpm install`. The
+// fonts come from Google Fonts.
 import { chromium } from '@playwright/test';
 import { fileURLToPath } from 'node:url';
 
@@ -8,15 +9,22 @@ const images = [
     { file: 'banner-light.png', theme: 'light', width: 1280, height: 512, scale: 2 },
     // GitHub's social preview: 1280 × 640, under 1 MB. Settings → General → Social preview.
     { file: 'social-preview.png', theme: 'dark', width: 1280, height: 640, scale: 1 },
+    // The npm packages' READMEs: npm shows each package's own, and drops a <picture>.
+    { file: 'banner-core.png', theme: 'light', pkg: 'core', width: 1280, height: 512, scale: 2 },
+    { file: 'banner-vue.png', theme: 'light', pkg: 'vue', width: 1280, height: 512, scale: 2 },
+    { file: 'banner-react.png', theme: 'light', pkg: 'react', width: 1280, height: 512, scale: 2 },
 ];
 
 const browser = await chromium.launch(
     process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {},
 );
-for (const { file, theme, width, height, scale } of images) {
+for (const { file, theme, pkg = 'all', width, height, scale } of images) {
     const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: scale });
     await page.goto(new URL('banner.html', import.meta.url).href);
-    await page.evaluate((name) => (document.body.className = name), theme);
+    await page.evaluate(([name, shown]) => {
+        document.body.className = name;
+        document.body.dataset.package = shown;
+    }, [theme, pkg]);
     await page.evaluate(() => document.fonts.ready);
     const missing = await page.evaluate(() =>
         ['Instrument Sans', 'JetBrains Mono'].filter((font) => !document.fonts.check(`16px "${font}"`)),

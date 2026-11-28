@@ -61,6 +61,20 @@ These keep the package's promises to the apps that use it. [CLAUDE.md](CLAUDE.md
 - Keep a pull request to one change, and say what it changes and why. Include the output that shows it working when you can.
 - CI must pass. Pushes that only change Markdown skip it.
 
+## Releases
+
+The Composer package and the three npm packages share one version, so matching numbers tell you which go together. Composer takes it from the release tag, npm from each `packages/*/package.json`. A release, by a maintainer:
+
+1. Set the new version in the three npm packages, in a pull request:
+
+   ```sh
+   perl -pi -e 's/^  "version": "[^"]+"/  "version": "0.3.0"/' packages/*/package.json
+   ```
+
+   CI fails when the packages' versions differ (`pnpm check:versions`).
+2. Once it is merged, tag `main` and push the tag: `git tag -a v0.3.0 -m v0.3.0 && git push origin v0.3.0`. Packagist picks up the tag, and CI checks that it matches the packages' version. Then create the GitHub release for the tag.
+3. Publish to npm from a clean, up-to-date `main`: `pnpm -r publish`. It builds each package, and publishes every one whose version is not on npm yet.
+
 ## License
 
 By contributing, you agree that your contributions are licensed under the [MIT License](LICENSE).
