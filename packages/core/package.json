@@ -1,7 +1,7 @@
 {
   "name": "@wuemv/inertia-livewire",
-  "version": "0.1.0",
-  "description": "Mount server-rendered Livewire components inside any front-end framework: the shared core of the Inertia adapters.",
+  "version": "0.2.0",
+  "description": "The shared core of the inertia-livewire adapters: mount server-rendered Laravel Livewire components inside any front-end framework.",
   "license": "MIT",
   "type": "module",
   "sideEffects": false,

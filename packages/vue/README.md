@@ -1,6 +1,6 @@
 # @wuemv/inertia-livewire-vue
 
-Mount Livewire components inside Vue + Inertia pages.
+Mount Livewire components inside the Vue + Inertia pages of a Laravel app.
 
 ```sh
 composer require wuemv/inertia-livewire

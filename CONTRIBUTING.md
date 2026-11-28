@@ -6,7 +6,7 @@ Thank you for helping. Bug reports, fixes, docs and tests are all welcome. For a
 
 The [bug report form](https://github.com/wuemv/inertia-livewire/issues/new?template=bug_report.yml) asks for:
 
-- The versions of PHP, Laravel, Livewire, Inertia (`inertiajs/inertia-laravel` and the client adapter), Vue and this package. `composer show` and `npm ls` list them.
+- The versions of PHP, Laravel, Livewire, Inertia (`inertiajs/inertia-laravel` and the client adapter), Vue or React, and this package. `composer show` and `npm ls` list them.
 - The route or controller that calls `Inertia::livewire()` or `InertiaLivewire::render()`/`lazy()`, and the page that mounts `<LivewireMount>`.
 - What the browser console says, and the request in the network tab if a lazy component fails to load.
 - Whether the Inertia root template loads `@livewireStyles` and `@livewireScripts` (see the README's Install section). Most "the component doesn't react" reports come down to that.
@@ -24,7 +24,7 @@ composer install
 pnpm install
 ```
 
-The repository is one Composer package (the root: `src/`, `config/`, `routes/`) and the npm packages in `packages/`: `core` (framework-independent) and `vue`. `workbench/` is a small Laravel + Livewire app, served by Testbench, that the browser tests run against.
+The repository is one Composer package (the root: `src/`, `config/`, `routes/`) and the npm packages in `packages/`: `core` (framework-independent), `vue` and `react`. `workbench/` is a small Laravel + Livewire app, served by Testbench, that the browser tests run against.
 
 ## Running the checks
 
@@ -32,12 +32,12 @@ The repository is one Composer package (the root: `src/`, `config/`, `routes/`) 
 |---|---|
 | `composer test` | The PHP tests (Pest, Testbench): rendering, the page macro, the signed endpoint |
 | `composer lint` | [Pun](https://punphp.com): the format check (Pint's `laravel` style) and lint. `composer format` fixes the style. Pun runs on Linux and macOS. |
-| `pnpm test` | The JavaScript tests (Vitest, jsdom): the core and the Vue adapter |
+| `pnpm test` | The JavaScript tests (Vitest, jsdom): the core and the adapters |
 | `pnpm typecheck` | TypeScript, for every package |
 | `pnpm build` | Builds the packages into `packages/*/dist` |
-| `pnpm e2e` | The browser tests (Playwright, Chromium) against `workbench/`, after `pnpm build`. Run `pnpm exec playwright install chromium` once first. |
+| `pnpm e2e` | The browser tests (Playwright, Chromium) against `workbench/`, the same page in Vue and in React, after `pnpm build`. Run `pnpm exec playwright install chromium` once first. |
 
-CI runs all of them. The PHP tests run on PHP 8.3 to 8.5 with Laravel 12 and 13, Livewire 4, and Inertia 2 and 3.
+CI runs all of them. The PHP tests run on PHP 8.3 to 8.5 with Laravel 12 and 13, Livewire 4, and Inertia 2 and 3; the React adapter's tests run on React 19 and 18.
 
 ## Ground rules
 
@@ -47,7 +47,7 @@ These keep the package's promises to the apps that use it. [CLAUDE.md](CLAUDE.md
 - **Livewire owns the component's DOM.** The adapters write the HTML once per key, and replace the component only when the key changes. The key is a hash of the HTML, so every server render gets a new one.
 - **Start components through Alpine, never `Livewire.start()` again.** `Alpine.initTree()` starts a component and `Alpine.destroyTree()` stops it. `initTree()` waits until Livewire has started: before that, Livewire's own start finds the component (the start race in CLAUDE.md).
 - **Lazy URLs are signed, encrypted and tied to the user** they were made for. A change to the render endpoint needs a test that an altered, expired or borrowed URL is refused.
-- **No new dependencies** beyond Laravel, Livewire and Inertia (and Vue for the Vue adapter) without an issue first.
+- **No new dependencies** beyond Laravel, Livewire and Inertia (and Vue or React for their adapters) without an issue first.
 
 ## Code and tests
 

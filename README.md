@@ -1,6 +1,11 @@
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="art/banner-dark.png">
+  <img src="art/banner-light.png" width="1280" alt="inertia-livewire: a Livewire component running inside an Inertia page, mounted with &lt;LivewireMount :component=&quot;billing&quot; /&gt;">
+</picture>
+
 # inertia-livewire
 
-Mount Livewire components inside Inertia pages.
+Mount Livewire components inside the Inertia pages of a Laravel app.
 
 Laravel renders the component on the server, the Inertia page receives its HTML as a prop, and a small Vue (or React) component puts it on the page and lets Livewire start it. Inertia keeps the page, the layout and the navigation; Livewire runs the component, with its own requests and its own DOM updates.
 
@@ -14,19 +19,23 @@ return Inertia::livewire(BillingSettings::class, ['team' => $team->id], ['title'
 <LivewireMount :component="livewire" class="rounded-lg border p-6" />
 ```
 
+```tsx
+<LivewireMount component={livewire} className="rounded-lg border p-6" />
+```
+
 ## Requirements
 
 - PHP 8.3.37, 8.4.28 or 8.5.13 and later: the newest security release of each PHP version
 - Laravel 12.61.1 or 13.12 and later (earlier releases have a signed-URL flaw that lazy components rely on; Laravel 11 no longer gets security fixes)
 - Livewire 4.4.8 or later (earlier releases have security advisories)
 - Inertia 2 or 3 (`inertiajs/inertia-laravel`)
-- Vue 3.3 or later. React: coming next, in `packages/react`.
+- Vue 3.3 or later, or React 18 or 19
 
 ## Install
 
 ```sh
 composer require wuemv/inertia-livewire
-npm install @wuemv/inertia-livewire-vue
+npm install @wuemv/inertia-livewire-vue      # or @wuemv/inertia-livewire-react
 ```
 
 Load Livewire in the Inertia root template, `resources/views/app.blade.php`. Livewire only adds its assets by itself to pages that render a component, and an Inertia page never does:
@@ -78,6 +87,20 @@ defineProps<{ title: string; livewire: LivewireComponent }>();
 </template>
 ```
 
+```tsx
+// resources/js/pages/Settings/LivewirePage.tsx
+import { LivewireMount, type LivewireComponent } from '@wuemv/inertia-livewire-react';
+
+export default function LivewirePage({ title, livewire }: { title: string; livewire: LivewireComponent }) {
+    return (
+        <>
+            <h1>{title}</h1>
+            <LivewireMount component={livewire} className="p-6" />
+        </>
+    );
+}
+```
+
 It gets the app's default layout like any other page (Inertia 3's starter kits set one in `createInertiaApp({ layout })`). Without a default layout, wrap it in yours.
 
 ### A component inside any page
@@ -95,6 +118,10 @@ return Inertia::render('Dashboard', [
 <LivewireMount :component="activity" />
 ```
 
+```tsx
+<LivewireMount component={activity} />
+```
+
 The component renders when Inertia resolves the prop, so a partial reload that leaves it out (`router.reload({ only: ['stats'] })`) does not render it, and one that asks for it renders it anew.
 
 ### A component that loads after the page
@@ -109,17 +136,21 @@ The component renders when Inertia resolves the prop, so a partial reload that l
 </LivewireMount>
 ```
 
+```tsx
+<LivewireMount component={chat} placeholder={<Spinner />} />
+```
+
 The prop is `{ key, url }`. The browser fetches the HTML from a signed URL, which carries the component, its parameters and the user, encrypted:
 
 - a browser cannot load another component or change the parameters;
 - only the user it was made for can load it (or a guest, for a guest's page);
-- it expires after `lazy_ttl` seconds (one hour by default). Inertia keeps props in the browser history, so the back button can bring back an old URL: `@error` tells you when one has expired.
+- it expires after `lazy_ttl` seconds (one hour by default). Inertia keeps props in the browser history, so the back button can bring back an old URL: `@error` (React: `onError`) tells you when one has expired.
 
 Parameters must be JSON-encodable: pass IDs, not models.
 
 ### Events
 
-From Livewire to Vue:
+From Livewire to the page:
 
 ```php
 $this->dispatch('invoice-paid', id: $invoice->id);
@@ -132,7 +163,7 @@ import { router } from '@inertiajs/vue3';
 useLivewireEvent('invoice-paid', ({ id }) => router.reload({ only: ['invoices'] }));
 ```
 
-From Vue to Livewire:
+From the page to Livewire:
 
 ```ts
 import { dispatch } from '@wuemv/inertia-livewire-vue';
@@ -140,17 +171,24 @@ import { dispatch } from '@wuemv/inertia-livewire-vue';
 dispatch('refresh-invoices', { team: 7 });   // #[On('refresh-invoices')] in the component
 ```
 
+The React adapter has the same `useLivewireEvent` and `dispatch`: import them from `@wuemv/inertia-livewire-react`, and `router` from `@inertiajs/react`. In React, the callback can change from one render to the next; the latest one is called.
+
 ### `<LivewireMount>`
 
-| Prop | | |
+| Vue | React | |
 |---|---|---|
-| `component` | `{ key, html }` or `{ key, url }` | from `render()`, `Inertia::livewire()` or `lazy()` |
-| `html` | string | plain HTML instead, for HTML from elsewhere |
-| `as` | string | the element, `div` by default |
+| `component` | `component` | `{ key, html }` or `{ key, url }`, from `render()`, `Inertia::livewire()` or `lazy()` |
+| `html` | `html` | plain HTML instead, for HTML from elsewhere |
+| `as` | `as` | the element, `div` by default |
+| `#placeholder` slot | `placeholder` | shown while a lazy component loads |
+| `@loaded` | `onLoaded` | called with the element once the component is in place |
+| `@error` | `onError` | called when a lazy component's request fails |
 
-Other attributes (`class`, `id`, `data-*`) go on that element. Slot: `placeholder`, shown while a lazy component loads. Events: `loaded` (the element), `error` (a lazy request that failed).
+Other attributes (`class` or `className`, `id`, `data-*`) go on that element.
 
-Livewire owns the element's content once it is there: while the key stays the same, Vue never writes it again, so Livewire's own updates stay. Every render on the server gives a new key, and a new key stops the old component and mounts the new one: there is no need for `:key`.
+Livewire owns the element's content once it is there: while the key stays the same, the adapter never writes it again, so Livewire's own updates stay. Every render on the server gives a new key, and a new key stops the old component and mounts the new one: there is no need for a `key` of your own.
+
+In React, the component stops when its element leaves the page. StrictMode (`strictMode: true` in `createInertiaApp()`, as Laravel's React starter kit has it) cleans up every effect once more in development, and `<Activity>` cleans them up while it hides a subtree, both with the element still in place: the component keeps running through them, as it does in production.
 
 ## How it works
 
@@ -162,7 +200,7 @@ Livewire owns the element's content once it is there: while the key stays the sa
 
 - Use Inertia's links. `wire:navigate` in an embedded component would fight Inertia's router.
 - With Inertia's SSR, the component's HTML is part of the server render; it starts once the page's JavaScript and Livewire have loaded.
-- Components are separate from the page's Vue state: talk through events, or reload Inertia props.
+- Components are separate from the page's Vue or React state: talk through events, or reload Inertia props.
 - The back button brings a page back from Inertia's history, so its components start again as the server rendered them: what changed in them since (a count, unsaved form input) is gone. A lazy component is fetched again.
 
 ## Configuration
@@ -186,11 +224,11 @@ php artisan vendor:publish --tag=inertia-livewire-config
 composer install && pnpm install
 vendor/bin/pest             # PHP: rendering, the page macro, the signed endpoint
 composer lint               # PHP: Pun's format check and lint (composer format fixes the style)
-pnpm test                   # JavaScript: the core and the Vue adapter, in jsdom
+pnpm test                   # JavaScript: the core and the adapters, in jsdom
 pnpm build && pnpm e2e      # Chromium against a real Laravel + Livewire app (workbench/)
 ```
 
-The end-to-end tests serve `workbench/` with `vendor/bin/testbench serve`. Where Playwright cannot download its browser, point `CHROMIUM_PATH` at a Chromium.
+The end-to-end tests serve `workbench/` with `vendor/bin/testbench serve`, and run the same page in Vue and in React (bundled before the tests, in StrictMode). Where Playwright cannot download its browser, point `CHROMIUM_PATH` at a Chromium.
 
 ## License
 

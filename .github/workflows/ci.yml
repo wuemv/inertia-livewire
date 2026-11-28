@@ -73,9 +73,15 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm test
       - run: pnpm build
+      # The workspace tests React 19; the adapter supports 18 too.
+      - name: The React adapter on React 18
+        run: |
+          pnpm add --workspace-root --save-dev react@18 react-dom@18 @types/react@18 @types/react-dom@18
+          pnpm exec vitest run packages/react
+          pnpm --filter ./packages/react run typecheck
 
   e2e:
-    name: Browser (real Livewire, Vue, Chromium)
+    name: Browser (real Livewire, Vue and React, Chromium)
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:

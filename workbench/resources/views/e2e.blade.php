@@ -29,7 +29,7 @@
                 const shown = ref(true);
                 const events = ref([]);
                 useLivewireEvent('counted', (detail) => events.value.push(`${detail.label}:${detail.count}`));
-                window.e2e = { which, shown };
+                window.e2e = { switchTo: (name) => (which.value = name), hide: () => (shown.value = false) };
 
                 return () => h('main', [
                     shown.value ? h(LivewireMount, { component: props[which.value], class: 'host', 'data-host': 'switchable' }) : null,

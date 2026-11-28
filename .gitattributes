@@ -1,5 +1,6 @@
 # Composer installs src/, config/, routes/, composer.json, the README and LICENSE.
 /.github            export-ignore
+/art                export-ignore
 /e2e                export-ignore
 /packages           export-ignore
 /tests              export-ignore

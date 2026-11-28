@@ -33,13 +33,13 @@ body:
     id: package
     attributes:
       label: inertia-livewire versions
-      description: "`wuemv/inertia-livewire` and `@wuemv/inertia-livewire-vue`, from `composer show` and `npm ls`."
+      description: "`wuemv/inertia-livewire` and `@wuemv/inertia-livewire-vue` or `-react`, from `composer show` and `npm ls`."
     validations:
       required: true
   - type: input
     id: stack
     attributes:
-      label: PHP, Laravel, Livewire, Inertia and Vue versions
+      label: PHP, Laravel, Livewire, Inertia and Vue or React versions
       placeholder: PHP 8.4.28, Laravel 13.44.1, Livewire 4.4.10, inertia-laravel 3.8.0, @inertiajs/vue3 3.11.0, Vue 3.5.46
     validations:
       required: true
