@@ -12,7 +12,8 @@ beforeEach(() => {
 
 afterEach(() => {
     vi.restoreAllMocks();
-    vi.clearAllMocks();
+    // Also drops what a test set on a vi.fn(), such as mockImplementation(), which restoreAllMocks() keeps.
+    vi.resetAllMocks();
     delete window.Alpine;
     delete window.Livewire;
 });
