@@ -28,7 +28,8 @@ afterEach(() => {
     act(() => root.unmount());
     container.remove();
     vi.restoreAllMocks();
-    vi.clearAllMocks();
+    // Also drops what a test set on a vi.fn(), such as mockImplementation(), which restoreAllMocks() keeps.
+    vi.resetAllMocks();
 });
 
 const render = (node: ReactNode) => act(() => root.render(node));
