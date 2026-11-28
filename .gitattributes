@@ -3,6 +3,7 @@
 /art                export-ignore
 /e2e                export-ignore
 /packages           export-ignore
+/scripts            export-ignore
 /tests              export-ignore
 /workbench          export-ignore
 /.gitattributes     export-ignore
